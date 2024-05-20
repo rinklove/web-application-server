@@ -31,10 +31,15 @@ public class RequestHandler extends Thread {
             String path = handler.getRequestURL();
             log.info("path = {}", path);
 
+            //3단계 - 요청 URL에 해당하는 파일을 webapp 디렉토리에 읽은 후 전달
+            byte[] requestBody = handler.getRequestBody(path);
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "Hello World".getBytes();
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            response200Header(dos, requestBody.length);
+            responseBody(dos, requestBody);
+
+//            byte[] body = "Hello World".getBytes();
+//            response200Header(dos, body.length);
+//            responseBody(dos, body);
         } catch (IOException e) {
             log.error(e.getMessage());
         }

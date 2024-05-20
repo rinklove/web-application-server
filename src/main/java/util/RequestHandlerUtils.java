@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.RequestHandler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Files;
 
 
 public class RequestHandlerUtils {
@@ -52,6 +50,14 @@ public class RequestHandlerUtils {
         return path;
     }
 
-
+    public byte[] getRequestBody(String path) {
+        byte[] bytes = null;
+        try {
+            bytes = Files.readAllBytes(new File("./webapp" + path).toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return bytes;
+    }
 
 }
