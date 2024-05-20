@@ -47,7 +47,7 @@ public class RequestHandlerUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return path;
+        return path.equals("/")? "/index.html" : path;
     }
 
     public byte[] getRequestBody(String path) {
