@@ -35,6 +35,23 @@ public class RequestHandlerUtils {
         }
     }
 
+    /**
+     * 2단계 - 요청 URL 추출
+     */
+    public String getRequestURL() {
+        String line = "";
+        String path = "";
+        try  {
+            if((line = br.readLine()).isEmpty())
+                throw new RuntimeException();
+
+            path = line.split(" ")[1];
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return path;
+    }
+
 
 
 }

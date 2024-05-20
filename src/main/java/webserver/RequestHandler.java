@@ -25,8 +25,11 @@ public class RequestHandler extends Thread {
 
             RequestHandlerUtils handler = new RequestHandlerUtils(in);
             //1단계 - 요청 정보 전체 출력하기
-            handler.printRequestHeader();
+            //handler.printRequestHeader();
 
+            //2단계 - 요청 정보 중 첫번째 line에서 "/index.html" 추출하기
+            String path = handler.getRequestURL();
+            log.info("path = {}", path);
 
             DataOutputStream dos = new DataOutputStream(out);
             byte[] body = "Hello World".getBytes();
