@@ -34,7 +34,7 @@ public class RequestHandler extends Thread {
             //3단계 - 요청 URL에 해당하는 파일을 webapp 디렉토리에 읽은 후 전달
             byte[] requestBody = handler.getRequestBody(path);
             DataOutputStream dos = new DataOutputStream(out);
-            response200Header(dos, requestBody.length);
+            response200Header(dos, path, requestBody.length);
             responseBody(dos, requestBody);
 
 //            byte[] body = "Hello World".getBytes();
@@ -45,14 +45,28 @@ public class RequestHandler extends Thread {
         }
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
+    private void response200Header(DataOutputStream dos, String path, int lengthOfBodyContent) {
         try {
+            String contentType = setContentType(path);
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Type: " + contentType + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
             log.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 요청 URL에 맞게 Content-Type 변환하기
+     * @param path
+     * @return
+     */
+    private String setContentType(String path) {
+        if(path.endsWith("css")) {
+            return "text/css";
+        } else {
+            return "text/html";
         }
     }
 
